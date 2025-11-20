@@ -1,0 +1,73 @@
+function main(stream) {
+    const TOKEN_ADDRESS = {{#if TOKEN_ADDRESS}}"{{TOKEN_ADDRESS}}"{{else}}null{{/if}};
+    const MIN_VALUE = {{#if MIN_VALUE}}{{MIN_VALUE}}{{else}}null{{/if}};
+    const MAX_VALUE = {{#if MAX_VALUE}}{{MAX_VALUE}}{{else}}null{{/if}};
+    const FROM_ADDRESS = {{#if FROM_ADDRESS}}"{{FROM_ADDRESS}}"{{else}}null{{/if}};
+    const TO_ADDRESS = {{#if TO_ADDRESS}}"{{TO_ADDRESS}}"{{else}}null{{/if}};
+    const DECIMALS = {{#if DECIMALS}}{{DECIMALS}}{{else}}null{{/if}};
+
+    const iface = new ethers.Interface([{
+        name: 'Transfer',
+        type: 'event',
+        inputs: [
+            { indexed: true, name: 'from', type: 'address' },
+            { indexed: true, name: 'to', type: 'address' },
+            { indexed: false, name: 'value', type: 'uint256' }
+        ]
+    }]);
+
+    const topic = iface.getEvent('Transfer').topicHash;
+
+    const parseERC20 = (log) => {
+        try {
+            const { args } = iface.parseLog(log);
+            return {
+                hash: log.transactionHash,
+                from: args.from,
+                to: args.to,
+                value: args.value.toString(),
+                address: log.address
+            };
+        } catch {
+            return null;
+        }
+    };
+
+    const erc20Transfers = (stream.logs || [])
+        .filter(l => l.topics?.[0]?.toLowerCase() === topic)
+        .map(parseERC20)
+        .filter(t => {
+            if (!t) return false;
+
+            const transferValue = BigInt(t.value);
+
+            if (DECIMALS != null) {
+                if (MIN_VALUE != null) {
+                    const minValueRaw = ethers.parseUnits(MIN_VALUE.toString(), DECIMALS);
+                    if (transferValue < minValueRaw) return false;
+                }
+                if (MAX_VALUE != null) {
+                    const maxValueRaw = ethers.parseUnits(MAX_VALUE.toString(), DECIMALS);
+                    if (transferValue > maxValueRaw) return false;
+                }
+            } 
+            else {
+                if (MIN_VALUE != null && transferValue < BigInt(MIN_VALUE)) return false;
+                if (MAX_VALUE != null && transferValue > BigInt(MAX_VALUE)) return false;
+            }
+
+            if (TOKEN_ADDRESS !== null && t.address.toLowerCase() !== TOKEN_ADDRESS.toLowerCase()) return false;
+            if (FROM_ADDRESS !== null && t.from.toLowerCase() !== FROM_ADDRESS.toLowerCase()) return false;
+            if (TO_ADDRESS !== null && t.to.toLowerCase() !== TO_ADDRESS.toLowerCase()) return false;
+            return true;
+        });
+
+    // If there are no ERC-20 transfers matching the criteria, return null to avoid sending any output
+    if (erc20Transfers.length === 0) return null;
+
+    return {
+        metadata: stream.metadata,
+        count: erc20Transfers.length,
+        transfers: erc20Transfers
+    };
+}

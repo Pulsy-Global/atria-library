@@ -1,0 +1,32 @@
+{
+    "FROM_ADDRESS": {
+        "description": "If not specified, this filter is ignored",
+        "optional": true,
+        "value": null
+    },
+    "TO_ADDRESS": {
+        "description": "If not specified, this filter is ignored",
+        "optional": true,
+        "value": null
+    },
+    "TOKEN_ADDRESS": {
+        "description": "If not specified, this filter is ignored",
+        "optional": true,
+        "value": null
+    },
+    "MIN_VALUE": {
+        "description": "Minimum transfer amount (ignored if not specified)",
+        "optional": true,
+        "value": null
+    },
+    "MAX_VALUE": {
+        "description": "Maximum transfer amount (ignored if not specified)",
+        "optional": true,
+        "value": null
+    },
+    "DECIMALS": {
+        "description": "Token decimals for auto-converting wei to human-readable format (Not specified = raw wei)",
+        "optional": true,
+        "value": null
+    }
+}

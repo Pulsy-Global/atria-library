@@ -1,0 +1,26 @@
+{
+  "name": "EVM Native Transfers",
+  "version": "1.0.1",
+  "description": "Filter native transactions",
+  "author": "Pulsy Atria Team",
+  "config": {
+    "source": {
+      "networkId": "ethereum-mainnet",
+      "networkFamily": "EVM",
+      "dataType": "BlockWithTransactions",
+      "startBlock": null,
+      "endBlock": null
+    },
+    "runtime": {
+      "errorHandling": "ContinueOnError",
+      "filter": {
+        "path": "filter.js.hbs",
+        "config": "filter-config.json",
+        "engine": "javascript"
+      }
+    },
+    "destination": {
+      "errorHandling": "ContinueOnError"
+    }
+  }
+}

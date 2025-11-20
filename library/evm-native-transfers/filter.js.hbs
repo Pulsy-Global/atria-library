@@ -1,0 +1,42 @@
+function main(stream) {
+    const MIN_VALUE = {{#if MIN_VALUE}}{{MIN_VALUE}}{{else}}null{{/if}};
+    const MAX_VALUE = {{#if MAX_VALUE}}{{MAX_VALUE}}{{else}}null{{/if}};
+    const FROM_ADDRESS = {{#if FROM_ADDRESS}}"{{FROM_ADDRESS}}"{{else}}null{{/if}};
+    const TO_ADDRESS = {{#if TO_ADDRESS}}"{{TO_ADDRESS}}"{{else}}null{{/if}};
+
+    const txs = stream.block.transactions || [];
+
+    const minWei = MIN_VALUE !== null ? ethers.parseEther(MIN_VALUE.toString()) : null;
+    const maxWei = MAX_VALUE !== null ? ethers.parseEther(MAX_VALUE.toString()) : null;
+
+    const nativeTransfers = txs
+        .map(tx => ({
+            hash: tx.hash,
+            from: tx.from,
+            to: tx.to,
+            valueWei: tx.value.toString(),
+            valueEth: ethers.formatEther(tx.value)
+        }))
+        .filter(tx => {
+            if(tx.valueWei == "0x0") return false;
+
+            const value = BigInt(tx.valueWei);
+
+            if (minWei !== null && value < minWei) return false;
+            if (maxWei !== null && value > maxWei) return false;
+            if (FROM_ADDRESS !== null && tx.from.toLowerCase() !== FROM_ADDRESS.toLowerCase()) return false;
+            if (TO_ADDRESS !== null && tx.to.toLowerCase() !== TO_ADDRESS.toLowerCase()) return false;
+
+            return true;
+        });
+
+    // If there are no native transfers matching the criteria, return null to avoid sending any output
+    if (nativeTransfers.length === 0) return null;
+
+    return {
+        metadata: stream.metadata,
+        timestamp: stream.block.timestamp,
+        count: nativeTransfers.length,
+        nativeTransfers
+    };
+}
