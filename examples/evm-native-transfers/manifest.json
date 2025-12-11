@@ -2,7 +2,7 @@
   "name": "EVM Native Transfers",
   "version": "1.0.0",
   "description": "Filter Native Transactions",
-  "author": "Pulsy Atria team",
+  "author": "Pulsy Atria Team",
   "config": {
     "source": {
       "networkId": "ethereum-mainnet",
