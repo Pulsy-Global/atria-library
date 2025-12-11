@@ -6,6 +6,7 @@
   "config": {
     "source": {
       "networkId": "ethereum-mainnet",
+      "networkFamily": "EVM",
       "dataType": "BlockWithLogs",
       "startBlock": null,
       "endBlock": null
