@@ -1,0 +1,25 @@
+{
+  "name": "EVM ERC-20 Transfers",
+  "version": "1.0.0",
+  "description": "Filter Token Transactions - Configure Minimum/Maximum Values & Track Specific ERC-20 Transfers",
+  "author": "Pulsy Atria team",
+  "config": {
+    "source": {
+      "networkId": "ethereum-mainnet",
+      "dataType": "BlockWithLogs",
+      "startBlock": null,
+      "endBlock": null
+    },
+    "runtime": {
+      "errorHandling": "ContinueOnError",
+      "filter": {
+        "path": "filter.js.hbs",
+        "config": "filter-config.json",
+        "engine": "javascript"
+      }
+    },
+    "destination": {
+      "errorHandling": "ContinueOnError"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+    "FROM_ADDRESS": {
+        "description": "Empty value skips filter",
+        "optional": true,
+        "value": null
+    },
+    "TO_ADDRESS": {
+        "description": "Empty value skips filter",
+        "optional": true,
+        "value": null
+    },
+    "TOKEN_ADDRESS": {
+        "description": "Empty value skips filter",
+        "optional": true,
+        "value": null
+    },
+    "MIN_VALUE": {
+        "description": "Minimum transfer amount. Uses DECIMALS if set; otherwise wei (Empty skips filter)",
+        "optional": true,
+        "value": null
+    },
+    "MAX_VALUE": {
+        "description": "Minimum transfer amount. Uses DECIMALS if set; otherwise wei (Empty skips filter)",
+        "optional": true,
+        "value": null
+    },
+    "DECIMALS": {
+        "description": "Token decimals for auto-converting wei to human-readable format (Empty = raw wei)",
+        "optional": true,
+        "value": null
+    }
+}

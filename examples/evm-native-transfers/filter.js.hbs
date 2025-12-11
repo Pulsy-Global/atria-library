@@ -1,0 +1,37 @@
+function main(stream) {
+    const MIN_VALUE = {{#if MIN_VALUE}}{{MIN_VALUE}}{{else}}null{{/if}};
+    const MAX_VALUE = {{#if MAX_VALUE}}{{MAX_VALUE}}{{else}}null{{/if}};
+    const FROM_ADDRESS = {{#if FROM_ADDRESS}}"{{FROM_ADDRESS}}"{{else}}null{{/if}};
+    const TO_ADDRESS = {{#if TO_ADDRESS}}"{{TO_ADDRESS}}"{{else}}null{{/if}};
+    const DECIMALS = {{#if DECIMALS}}{{DECIMALS}}{{else}}18{{/if}};
+
+    const txs = stream.block.transactions || [];
+
+    const nativeTransfers = txs
+        .map(tx => {
+            const valueEth = Number(ethers.formatEther(tx.value)).toFixed(DECIMALS);
+            return {
+                hash: tx.hash,
+                from: tx.from,
+                to: tx.to,
+                valueEth
+            };
+        })
+        .filter(tx => {
+            if (MIN_VALUE !== null && tx.valueEth < MIN_VALUE) return false;
+            if (MAX_VALUE !== null && tx.valueEth > MAX_VALUE) return false;
+            if (FROM_ADDRESS !== null && tx.from.toLowerCase() !== FROM_ADDRESS.toLowerCase()) return false;
+            if (TO_ADDRESS !== null && tx.to.toLowerCase() !== TO_ADDRESS.toLowerCase()) return false;
+            return true;
+        });
+
+    // If there are no native transfers matching the criteria, return null to avoid sending any output
+    if (nativeTransfers.length === 0) return null;
+
+    return {
+        metadata: stream.metadata,
+        timestamp: stream.block.timestamp,
+        count: nativeTransfers.length,
+        nativeTransfers
+    };
+}

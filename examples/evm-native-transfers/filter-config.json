@@ -1,0 +1,26 @@
+{
+    "FROM_ADDRESS": {
+        "description": "Empty value skips filter",
+        "optional": true,
+        "value": null
+    },
+    "TO_ADDRESS": {
+        "description": "Empty value skips filter",
+        "optional": true,
+        "value": null
+    },
+    "MIN_VALUE": {
+        "description": "Minimum transfer amount",
+        "optional": true,
+        "value": null
+    },
+    "MAX_VALUE": {
+        "description": "Minimum transfer amount",
+        "optional": true,
+        "value": null
+    },
+    "DECIMALS": {
+        "description": "Native token decimals (default: 18)",
+        "value": 18
+    }
+}

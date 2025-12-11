@@ -8,11 +8,10 @@ Contributions are welcome! Feel free to create a pull request with new feeds or 
 
 ## Feeds
 
-| Feed | Description | Chain(s) |
-|------|-------------|----------|
-| `eth-transfers-in-range` | Tracks transfers of ETH within a specified amount range. | Ethereum |
-| `pol-transfers-in-range` | Tracks transfers of POL within a specified amount range. | Polygon |
-| `erc20-transfers-in-range` | Tracks specified ERC20 token transfers within a specified amount range. | Ethereum, Polygon |
+| Feed                   | Description                                                             | Chain(s)                    |
+|------------------------|-------------------------------------------------------------------------|-----------------------------|
+| `evm-native-transfers` | Tracks transfers of ETH,POL within a specified amount range.            | Any EVM (Ethereum, Polygon) |
+| `evm-erc20-transfers`  | Tracks specified ERC20 token transfers within a specified amount range. | Any EVM (Ethereum, Polygon) |
 
 ## Bespoke Feed Engineering
 
