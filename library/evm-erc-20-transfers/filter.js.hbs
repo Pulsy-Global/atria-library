@@ -1,3 +1,5 @@
+const ethers = require("ethers")
+
 function main(stream) {
     const TOKEN_ADDRESS = {{#if TOKEN_ADDRESS}}"{{TOKEN_ADDRESS}}"{{else}}null{{/if}};
     const MIN_VALUE = {{#if MIN_VALUE}}{{MIN_VALUE}}{{else}}null{{/if}};

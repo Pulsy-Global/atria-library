@@ -1,6 +1,6 @@
 {
   "name": "EVM ERC-20 Transfers",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Filter token transactions - configure minimum/maximum values & track specific ERC-20 transfers",
   "author": "Pulsy Atria Team",
   "config": {

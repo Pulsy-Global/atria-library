@@ -1,6 +1,6 @@
 {
   "name": "EVM Native Transfers",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Filter native transactions",
   "author": "Pulsy Atria Team",
   "config": {
